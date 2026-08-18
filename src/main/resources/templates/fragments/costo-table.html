@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="panel" id="panel-predio">
+
+    <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <div>
+            <div class="text-lg font-semibold" th:text="${predio.nombre}">Predio</div>
+            <div class="text-xs text-white/45" th:text="${#lists.size(movimientos)} + ' movimientos'">0 movimientos</div>
+        </div>
+
+        <form hx-post="/dashboard/porcentaje" hx-target="#panel-predio" hx-swap="outerHTML"
+              class="glass rounded-xl px-4 py-2.5 flex items-center gap-3">
+            <input type="hidden" name="predioId" th:value="${predio.id}"/>
+            <span class="text-xs text-white/50">% Socio</span>
+            <input type="range" name="porcentaje" min="0" max="100" step="1"
+                   th:value="${predio.porcentajeSocio}"
+                   oninput="this.nextElementSibling.innerText = this.value + '%'; this.form.requestSubmit()"
+                   class="w-32 accent-neon"/>
+            <span class="text-sm font-semibold w-10" th:text="${predio.porcentajeSocio} + '%'">50%</span>
+        </form>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div class="rounded-2xl p-4 bg-white/[0.03] border border-white/10">
+            <div class="text-xs text-white/45 mb-1">Total invertido</div>
+            <div class="text-lg font-semibold" th:text="${#numbers.formatDecimal(totalInvertido,0,'COMMA',0,'POINT')}">0</div>
+        </div>
+        <div class="rounded-2xl p-4 bg-white/[0.03] border border-white/10">
+            <div class="text-xs text-white/45 mb-1">Tu aporte</div>
+            <div class="text-lg font-semibold" th:text="${#numbers.formatDecimal(aportePropio,0,'COMMA',0,'POINT')}">0</div>
+        </div>
+        <div class="rounded-2xl p-4 bg-white/[0.03] border border-white/10">
+            <div class="text-xs text-white/45 mb-1">Aporte del socio</div>
+            <div class="text-lg font-semibold" th:text="${#numbers.formatDecimal(aporteSocio,0,'COMMA',0,'POINT')}">0</div>
+        </div>
+        <div class="rounded-2xl p-4 bg-white/[0.03] border border-white/10">
+            <div class="text-xs text-white/45 mb-1">Ciclo</div>
+            <div class="text-lg font-semibold" th:text="${predio.estado}">ACTIVO</div>
+        </div>
+    </div>
+
+    <div class="glass rounded-2xl p-5">
+        <div class="grid grid-cols-5 gap-2 text-xs text-white/40 pb-2 border-b border-white/10 px-2">
+            <div>Fecha</div><div class="col-span-2">Descripción</div><div>Total</div><div>Tu aporte / Socio</div>
+        </div>
+        <div th:each="m : ${movimientos}" class="grid grid-cols-5 gap-2 text-sm py-2.5 px-2 border-b border-white/5 items-center">
+            <div class="text-white/50" th:text="${#temporals.format(m.fecha, 'dd MMM')}">01 ene</div>
+            <div class="col-span-2">
+                <span th:text="${m.descripcion}">Descripción</span>
+                <span class="ml-2 text-[10px] px-2 py-0.5 rounded-full bg-violet/20 text-violet-300" th:text="${m.categoria}">Cat</span>
+            </div>
+            <div th:text="${#numbers.formatDecimal(m.totalGeneral,0,'COMMA',0,'POINT')}">0</div>
+            <div class="text-white/50 text-xs">
+                <span th:text="${#numbers.formatDecimal(m.aportePropio,0,'COMMA',0,'POINT')}">0</span> /
+                <span th:text="${#numbers.formatDecimal(m.aporteSocio,0,'COMMA',0,'POINT')}">0</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

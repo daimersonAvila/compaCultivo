@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Suscripción')}"></head>
+<body>
+<div th:replace="~{fragments/header :: nav}"></div>
+<main class="max-w-md mx-auto px-7 pt-20 text-center">
+    <div class="glass rounded-2xl p-8">
+        <div class="text-neon text-xs font-semibold mb-3">SUSCRIPCIÓN COMPACULTIVO</div>
+        <h1 class="text-xl font-semibold mb-2" th:text="${mensaje} ?: 'Activa tu acceso'">Activa tu acceso</h1>
+        <p class="text-sm text-white/55 mb-6" th:if="${mensaje == null}">
+            Tu cuenta está pendiente de pago. Completa la suscripción para entrar al panel de tu predio.
+        </p>
+        <form th:if="${mensaje == null}" th:action="@{/pago/checkout}" method="post">
+            <button type="submit" class="bg-neon text-black rounded-xl py-2.5 px-6 font-semibold text-sm w-full">
+                Pagar con Stripe
+            </button>
+        </form>
+        <p class="text-xs text-white/40 mt-5">
+            ¿Ya pagaste por transferencia? El administrador puede activarte manualmente desde el panel admin.
+        </p>
+    </div>
+</main>
+</body>
+</html>

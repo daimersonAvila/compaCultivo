@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: head('Inicio')}"></head>
+<body>
+<div th:replace="~{fragments/header :: nav}"></div>
+
+<main class="max-w-5xl mx-auto px-7 pt-16 pb-20">
+    <div class="text-neon text-xs font-semibold tracking-wide mb-4">GESTIÓN AGRÍCOLA COMPARTIDA</div>
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+                De la libreta del predio<br/>
+                <span class="bg-gradient-to-r from-neon to-violet bg-clip-text text-transparent">al dashboard en tiempo real</span>
+            </h1>
+            <p class="text-white/60 mt-5 max-w-md leading-relaxed">
+                Registra inversión, siembra, insumos y nómina de cada ciclo, y reparte el costo entre
+                dueño y socio al instante — todo con acceso controlado por pago.
+            </p>
+            <div class="flex gap-3 mt-8">
+                <a href="/login" class="bg-neon text-black px-5 py-2.5 rounded-xl font-semibold text-sm">Empezar con Google</a>
+                <a href="/dashboard" class="border border-white/15 px-5 py-2.5 rounded-xl text-sm">Ver el panel</a>
+            </div>
+        </div>
+
+        <div id="hero3d" class="h-72 md:h-80 rounded-2xl glass"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4 mt-16">
+        <div class="glass neon-border rounded-2xl p-5 transition">
+            <div class="text-neon text-lg mb-2">⟳</div>
+            <div class="font-semibold mb-1">Reparto en vivo</div>
+            <div class="text-sm text-white/55 leading-relaxed">Cambia el % del socio y todo el ciclo se recalcula al instante, sin recargar la página (HTMX).</div>
+        </div>
+        <div class="glass neon-border rounded-2xl p-5 transition">
+            <div class="text-neon text-lg mb-2">🔒</div>
+            <div class="font-semibold mb-1">Acceso controlado</div>
+            <div class="text-sm text-white/55 leading-relaxed">Cada agricultor entra con Google, y solo el admin activa la cuenta tras confirmar el pago.</div>
+        </div>
+        <div class="glass neon-border rounded-2xl p-5 transition">
+            <div class="text-neon text-lg mb-2">📈</div>
+            <div class="font-semibold mb-1">Ciclo completo</div>
+            <div class="text-sm text-white/55 leading-relaxed">Inversión, siembra, insumos y nómina reunidos en una sola línea de tiempo.</div>
+        </div>
+    </div>
+</main>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module" src="/js/three-hero.js"></script>
+</body>
+</html>

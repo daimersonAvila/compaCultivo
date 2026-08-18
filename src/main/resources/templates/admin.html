@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Admin')}"></head>
+<body>
+<div th:replace="~{fragments/header :: nav}"></div>
+<main class="max-w-4xl mx-auto px-7 pt-8 pb-20">
+    <div class="text-lg font-semibold mb-1">Panel de administración</div>
+    <div class="text-xs text-white/45 mb-6">Aprueba pagos manuales y controla quién entra a la plataforma.</div>
+    <div th:replace="~{fragments/admin-table :: tabla}"></div>
+</main>
+</body>
+</html>

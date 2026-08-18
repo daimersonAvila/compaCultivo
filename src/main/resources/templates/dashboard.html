@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Panel')}"></head>
+<body>
+<div th:replace="~{fragments/header :: nav}"></div>
+
+<main class="max-w-5xl mx-auto px-7 pt-10 pb-20" th:if="${predio == null}">
+    <div class="glass rounded-2xl p-8 text-center text-white/60">
+        Aún no tienes un predio registrado.
+    </div>
+</main>
+
+<main class="max-w-5xl mx-auto px-7 pt-8 pb-20" th:if="${predio != null}">
+    <div th:replace="~{fragments/costo-table :: panel}"></div>
+</main>
+</body>
+</html>

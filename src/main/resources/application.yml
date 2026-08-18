@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: compacultivo
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:compacultivo}?useSSL=false
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+    show-sql: ${SHOW_SQL:false}
+    properties:
+      hibernate:
+        format_sql: true
+
+  sql:
+    init:
+      mode: never
+
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+    timeout: 8h
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+
+  docker:
+    compose:
+      enabled: ${DOCKER_COMPOSE_ENABLED:false}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration:
+      ms: ${JWT_EXPIRATION_MS:86400000}
+  admin-seed-email: ${ADMIN_SEED_EMAIL}
+  stripe:
+    secret-key: ${STRIPE_SECRET_KEY:}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:}
+    price-id: ${STRIPE_PRICE_ID:}
+    success-url: ${APP_BASE_URL:http://localhost:8080}/pago/exito
+    cancel-url: ${APP_BASE_URL:http://localhost:8080}/pago
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: ${COOKIE_SECURE:false}
+        same-site: lax
+        max-age: 8h
+
+logging:
+  level:
+    org.springframework.security: ${LOG_LEVEL_SECURITY:INFO}

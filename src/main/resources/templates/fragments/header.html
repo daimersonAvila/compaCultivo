@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(titulo)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${titulo} + ' · CompaCultivo'">CompaCultivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { neon: '#00FFAA', violet: '#7C3AED', bgdark: '#0A0A0A' },
+          }
+        }
+      }
+    </script>
+    <style>
+      body { background: #0A0A0A; color: #F2F2F0; font-family: 'Inter', system-ui, sans-serif; }
+      .glass { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); backdrop-filter: blur(14px); }
+      .neon-border:hover { box-shadow: 0 0 0 1px #00FFAA55, 0 8px 24px -8px #00FFAA66; }
+    </style>
+</head>
+<body>
+<nav th:fragment="nav" class="flex items-center justify-between px-7 py-4 border-b border-white/10">
+    <a href="/" class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-neon to-violet"></div>
+        <span class="font-semibold">CompaCultivo</span>
+    </a>
+    <div class="flex items-center gap-4 text-sm text-white/70">
+        <a href="/dashboard" class="hover:text-white">Panel</a>
+        <a href="/admin" sec:authorize="hasRole('ADMIN')" class="hover:text-white">Admin</a>
+        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+            <button type="submit" class="hover:text-white">Salir</button>
+        </form>
+        <a sec:authorize="!isAuthenticated()" href="/login"
+           class="bg-neon text-black px-4 py-1.5 rounded-lg font-medium">Entrar</a>
+    </div>
+</nav>
+</body>
+</html>

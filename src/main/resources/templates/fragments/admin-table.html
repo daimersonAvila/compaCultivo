@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="tabla" id="tabla-usuarios" class="glass rounded-2xl p-5">
+    <div class="grid grid-cols-6 gap-2 text-xs text-white/40 pb-2 border-b border-white/10 px-2">
+        <div class="col-span-2">Usuario</div><div>Rol</div><div>Estado</div><div>Registrado</div><div></div>
+    </div>
+    <div th:each="u : ${usuarios}" class="grid grid-cols-6 gap-2 text-sm py-3 px-2 border-b border-white/5 items-center">
+        <div class="col-span-2">
+            <div th:text="${u.name}">Nombre</div>
+            <div class="text-xs text-white/40" th:text="${u.email}">email</div>
+        </div>
+        <form th:action="@{'/admin/usuarios/' + ${u.id} + '/rol'}" method="post"
+              hx-post="@{'/admin/usuarios/' + ${u.id} + '/rol'}" hx-target="#tabla-usuarios" hx-swap="outerHTML">
+            <select name="rol" onchange="this.form.requestSubmit()"
+                    class="bg-transparent border border-white/15 rounded-lg text-xs px-2 py-1">
+                <option value="USER" th:selected="${u.role.name() == 'USER'}">USER</option>
+                <option value="ADMIN" th:selected="${u.role.name() == 'ADMIN'}">ADMIN</option>
+            </select>
+        </form>
+        <div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full"
+                  th:classappend="${u.subscriptionStatus.name() == 'ACTIVE' ? 'bg-neon/20 text-neon' : (u.subscriptionStatus.name() == 'PENDING' ? 'bg-amber-400/20 text-amber-300' : 'bg-red-400/20 text-red-300')}"
+                  th:text="${u.subscriptionStatus.name() == 'ACTIVE' ? 'Activo' : (u.subscriptionStatus.name() == 'PENDING' ? 'Pendiente' : 'Vencido')}">
+                Estado
+            </span>
+        </div>
+        <div class="text-white/45 text-xs" th:text="${#temporals.format(u.createdAt, 'dd MMM yyyy')}">01 ene 2026</div>
+        <div>
+            <button th:if="${u.active}"
+                    hx-post="@{'/admin/usuarios/' + ${u.id} + '/desactivar'}" hx-target="#tabla-usuarios" hx-swap="outerHTML"
+                    class="border border-red-400/40 text-red-300 text-xs rounded-lg px-3 py-1.5">Desactivar</button>
+            <button th:unless="${u.active}"
+                    hx-post="@{'/admin/usuarios/' + ${u.id} + '/activar'}" hx-target="#tabla-usuarios" hx-swap="outerHTML"
+                    class="bg-neon text-black text-xs rounded-lg px-3 py-1.5 font-medium">Activar</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
